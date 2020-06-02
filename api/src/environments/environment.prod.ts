@@ -1,4 +1,5 @@
 export const environment = {
+  allowOrigins: ['http://localhost:3000'],
   apiBaseUrl: 'http://localhost:3333',
   databaseUrl: 'mysql://root:1234@localhost:3306/ecoleta',
   databaseUsername: process.env.DATABASE_USERNAME,

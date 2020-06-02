@@ -6,9 +6,12 @@ export class PointItemService {
   private pointItemRepository = new PointItemRepository();
 
   public async create(pointsItems: PointItem[]) {
-    return await this.pointItemRepository.create(
+    const transaction = await knexConnection.transaction();
+    const idsPointsItems = this.pointItemRepository.create(
       pointsItems,
-      await knexConnection.transaction(),
+      transaction,
     );
+    transaction.commit();
+    return idsPointsItems;
   }
 }

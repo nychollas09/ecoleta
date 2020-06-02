@@ -1,4 +1,6 @@
+import { environment } from './../environments/environment';
 import express, { Application, Request, Response, Router } from 'express';
+import cors from 'cors';
 
 export class App {
   public app: Application;
@@ -8,6 +10,15 @@ export class App {
     this.app = express();
     this.port = appInit.port;
     this.app.use(express.json());
+    this.app.use(
+      cors({
+        maxAge: 3600,
+        credentials: true,
+        origin: environment.allowOrigins,
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+
+      }),
+    );
     this.routes(appInit.controllers);
     this.wildCart();
   }
