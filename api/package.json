@@ -13,11 +13,16 @@
     "API"
   ],
   "scripts": {
-    "dev": "yarn ts-node-dev src/server.ts"
+    "dev": "yarn ts-node-dev --inspect --respawn --ignore-watch node_modules src/app/server.ts",
+    "knex:migrate:latest": "knex --knexfile knexfile.ts migrate:latest",
+    "knex:seed:run": "knex --knexfile knexfile.ts seed:run"
   },
   "dependencies": {
     "@types/express": "^4.17.6",
-    "express": "^4.17.1"
+    "cli-table": "^0.3.1",
+    "express": "^4.17.1",
+    "knex": "^0.21.1",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "ts-node": "^8.10.2",
