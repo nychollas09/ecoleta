@@ -1,6 +1,5 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import './styles.css';
-
 import { Map, TileLayer, Marker } from 'react-leaflet';
 import { ecoletaApi, ibgeApi } from '../../services/api';
 import { Item } from 'src/shared/domain/model/item';
@@ -8,6 +7,8 @@ import { Uf } from 'src/shared/domain/interface/uf';
 import { Municipio } from 'src/shared/domain/interface/municipio';
 import { LeafletMouseEvent } from 'leaflet';
 import { Point } from 'src/shared/domain/model/point';
+import { useHistory } from 'react-router-dom';
+import { FiCheckCircle } from 'react-icons/fi';
 
 export default function CreatePoint() {
   const [inicialPosition, setInicialPosition] = useState<[number, number]>([
@@ -28,6 +29,7 @@ export default function CreatePoint() {
   const [idsItems, setIdsItems] = useState<number[]>([]);
 
   const [point, setPoint] = useState<Point>();
+  const [pointSuccessfully, setPointSuccessfully] = useState<boolean>(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -53,6 +55,8 @@ export default function CreatePoint() {
       .get<Municipio[]>(`${selectedUf}/municipios`)
       .then((response) => setMunicipios(response.data));
   }, [selectedUf]);
+
+  const history = useHistory();
 
   function handleMapClick(event: LeafletMouseEvent) {
     const { lat, lng } = event.latlng;
@@ -95,10 +99,14 @@ export default function CreatePoint() {
     ecoletaApi
       .post<Point>('point', pointToSave)
       .then(() => {
-        alert('Ponto de coleta criado!');
+        setPointSuccessfully(true);
+        setTimeout(() => {
+          history.push('/');
+        }, 1500);
       })
       .catch((error) => {
         console.log(error);
+        alert(error);
       });
   }
 
@@ -221,6 +229,16 @@ export default function CreatePoint() {
 
         <button type="submit">Cadatrar ponto de coleta</button>
       </form>
+
+      {pointSuccessfully ? (
+        <div className="create-point-success">
+          <h1>
+            <FiCheckCircle className="check-sucess" />
+            <br />
+            Cadastro concluído!
+          </h1>
+        </div>
+      ) : null}
     </div>
   );
 }

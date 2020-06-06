@@ -18,6 +18,8 @@ export class ItemRepository {
         `${this.TABLE}.ID`,
       )
       .where(`${this.POINT_ITEM}.POINT_ID`, idPoint);
-    return itemsUninstancied.map((item: Item) => new Item(item));
+    return Promise.resolve(
+      itemsUninstancied.map((item: Item) => new Item(item)),
+    );
   }
 }

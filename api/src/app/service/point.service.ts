@@ -62,12 +62,14 @@ export class PointService {
     });
 
     await this.pointItemService.create(pointsItems, transcation);
+    await transcation.commit();
 
     const items: ItemDTO[] = (
       await this.itemService.getByPointId(point_id)
     ).map((item) => item.toDTO());
 
     await transcation.commit();
+
     return response.json(
       new PointDTO({
         id: point_id,
