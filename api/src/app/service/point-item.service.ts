@@ -1,17 +1,15 @@
-import { PointItemRepository } from '../repository/point-item.repository';
+import knex from 'knex';
 import { PointItem } from '../domain/model/point-item';
-import { knexConnection } from '../database/config/knex.config';
+import { PointItemRepository } from '../repository/point-item.repository';
 
 export class PointItemService {
   private pointItemRepository = new PointItemRepository();
 
-  public async create(pointsItems: PointItem[]) {
-    const transaction = await knexConnection.transaction();
+  public async create(pointsItems: PointItem[], transaction: knex.Transaction) {
     const idsPointsItems = this.pointItemRepository.create(
       pointsItems,
       transaction,
     );
-    transaction.commit();
     return idsPointsItems;
   }
 }

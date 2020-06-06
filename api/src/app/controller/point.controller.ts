@@ -46,7 +46,7 @@ export class PointController implements ControllerBase {
   private create() {
     return async (request: Request, response: Response) => {
       return await this.pointService.create(
-        new PointDTO(...request.body),
+        new PointDTO({...request.body}),
         response,
       );
     };

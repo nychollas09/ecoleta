@@ -8,8 +8,9 @@ export class ItemRepository {
     idPoint: number,
     transcation: knex.Transaction,
   ): Promise<Item[]> {
-    const itemsUninstancied = await transcation(this.TABLE)
+    const itemsUninstancied = await transcation
       .select(`${this.TABLE}.*`)
+      .from(this.TABLE)
       .join(
         this.POINT_ITEM,
         `${this.POINT_ITEM}.ITEM_ID`,

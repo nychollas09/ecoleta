@@ -6,8 +6,6 @@ export class ItemService {
 
   public async getByPointId(idPoint: number) {
     const transaction = await knexConnection.transaction();
-    const items = this.itemRepository.getByPointId(idPoint, transaction);
-    transaction.commit();
-    return items;
+    return this.itemRepository.getByPointId(idPoint, transaction);
   }
 }
