@@ -1,6 +1,7 @@
 import { environment } from './../environments/environment';
 import express, { Application, Request, Response, Router } from 'express';
 import cors from 'cors';
+import path from 'path';
 
 export class App {
   public app: Application;
@@ -16,8 +17,11 @@ export class App {
         credentials: true,
         origin: environment.allowOrigins,
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-
       }),
+    );
+    this.app.use(
+      '/upload',
+      express.static(path.resolve(__dirname, '..', 'assets', 'upload')),
     );
     this.routes(appInit.controllers);
     this.wildCart();

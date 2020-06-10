@@ -1,3 +1,8 @@
+/src/assets/upload/*.jpg
+/src/assets/upload/*.png
+/src/assets/upload/*.jpeg
+/src/assets/upload/*.gif
+
 # compiled output
 /dist
 /tmp

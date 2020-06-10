@@ -4,7 +4,7 @@ export class Point {
   public id: number;
   public name: string;
   public email: string;
-  public image: string;
+  public image: File;
   public whatsapp: string;
   public latitude: number;
   public longitude: number;

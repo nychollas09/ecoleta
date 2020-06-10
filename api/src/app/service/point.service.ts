@@ -41,7 +41,7 @@ export class PointService {
       idPoint,
       transaction,
     );
-    if (!point) {
+    if (!point.id) {
       return response.status(400).json({ message: 'Point not found' });
     }
     const items: ItemDTO[] = (

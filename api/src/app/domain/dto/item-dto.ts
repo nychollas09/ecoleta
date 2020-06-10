@@ -9,7 +9,7 @@ export class ItemDTO {
   constructor(init?: Partial<ItemDTO>) {
     Object.assign(this, init);
     if (init && init.image) {
-      this.imageUrl = `${environment.apiBaseUrl}/item/upload/${this.image}`;
+      this.imageUrl = `${environment.apiBaseUrl}/upload/${this.image}`;
     }
   }
 }

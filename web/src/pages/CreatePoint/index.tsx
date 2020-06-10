@@ -9,6 +9,7 @@ import { LeafletMouseEvent } from 'leaflet';
 import { Point } from 'src/shared/domain/model/point';
 import { useHistory } from 'react-router-dom';
 import { FiCheckCircle } from 'react-icons/fi';
+import { EcoletaDropzone } from '../../shared/components/Dropzone';
 
 export default function CreatePoint() {
   const [inicialPosition, setInicialPosition] = useState<[number, number]>([
@@ -27,6 +28,7 @@ export default function CreatePoint() {
     0,
   ]);
   const [idsItems, setIdsItems] = useState<number[]>([]);
+  const [selectedFile, setSelectedFile] = useState<File>();
 
   const [point, setPoint] = useState<Point>();
   const [pointSuccessfully, setPointSuccessfully] = useState<boolean>(false);
@@ -90,14 +92,25 @@ export default function CreatePoint() {
     const pointToSave = new Point({
       ...point,
       idsItems,
-      image: 'image-tmp',
+      image: selectedFile,
       latitude,
       longitude,
       city: selectedCity,
       uf: selectedUf,
     });
+    const formData = new FormData();
+    formData.append('name', pointToSave.name);
+    formData.append('email', pointToSave.email);
+    formData.append('whatsapp', pointToSave.whatsapp);
+    formData.append('uf', pointToSave.uf);
+    formData.append('city', pointToSave.city);
+    formData.append('latitude', String(pointToSave.latitude));
+    formData.append('longitude', String(pointToSave.longitude));
+    formData.append('idsItems', pointToSave.idsItems.join(','));
+    formData.append('image', pointToSave.image);
+
     ecoletaApi
-      .post<Point>('point', pointToSave)
+      .post<Point>('point', formData)
       .then(() => {
         setPointSuccessfully(true);
         setTimeout(() => {
@@ -116,6 +129,8 @@ export default function CreatePoint() {
         <h1>
           Cadastro do <br /> ponto de coleta
         </h1>
+
+        <EcoletaDropzone onFileUploaded={setSelectedFile} />
 
         <fieldset>
           <legend>

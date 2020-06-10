@@ -14,18 +14,11 @@ export class ItemController implements ControllerBase {
 
   public initRoutes() {
     this.router.get(this.path, this.index());
-    this.router.use(`${this.path}/upload`, this.uploadItem());
   }
 
   public index() {
     return async (request: Request, response: Response) => {
       return await this.itemService.index(response);
     };
-  }
-
-  public uploadItem() {
-    return express.static(
-      path.resolve(__dirname, '..', '..', 'assets', 'upload'),
-    );
   }
 }
